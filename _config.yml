@@ -1,3 +1,4 @@
-theme: minimal-mistakes-jekyll
+remote_theme: "mmistakes/minimal-mistakes@4.15.1"
 title: Welcome Everyone!
 description: 개인적으로 공부하기 위해 올리는 글 입니다.
+plugins: [jekyll-include-cache]
