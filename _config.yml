@@ -2,3 +2,5 @@ remote_theme: "benbalter/retlab"
 title: Welcome Everyone!
 description: 개인적으로 공부하기 위해 올리는 글 입니다.
 plugins: [jekyll-include-cache, jekyll-remote-theme]
+
+theme: jekyll-theme-cayman
