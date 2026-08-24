@@ -1,5 +1,32 @@
 <!-- start custom head snippets -->
 
+<!-- Pretendard: 한국어 장문 가독성 최적 웹폰트 -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" as="style" crossorigin
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+
+<style>
+  /* 본문 가독성 튜닝 */
+  html { font-size: 17px; }
+
+  body,
+  h1, h2, h3, h4, h5, h6,
+  .page__title, .page__content, .archive__item-title, .archive__item-excerpt,
+  .masthead__menu, .greedy-nav a, .sidebar, .author__name, .author__bio,
+  button, input, textarea, select, .btn {
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+                 "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", sans-serif !important;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* 장문 읽기 편하도록 줄간격/자간 */
+  .page__content { font-size: 1.05em; }
+  .page__content p,
+  .page__content li { line-height: 1.9; letter-spacing: -0.003em; }
+  .page__content h2 { margin-top: 2.2em; }
+  .page__content h3 { margin-top: 1.6em; }
+</style>
+
 <!-- insert favicons. use https://realfavicongenerator.net/ -->
 
 <!-- end custom head snippets -->
