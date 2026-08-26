@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="'Apple SD Gothic Neo','Malgun Gothic',sans-serif">
+  <rect width="640" height="300" fill="#ffffff"/>
+  <text x="40" y="44" font-size="22" font-weight="700" fill="#1a1a1a">소득은 줄고, 주거비는 늘었다</text>
+  <text x="40" y="68" font-size="13" fill="#888">39세 이하 가구 · 2026년 1분기, 전년 대비</text>
+  <text x="40" y="152" font-size="14" fill="#444">가구 소득</text>
+  <rect x="180" y="130" width="44" height="34" rx="4" fill="#d9917f"/>
+  <text x="234" y="152" font-size="15" font-weight="700" fill="#c0654a">−1.7%</text>
+  <text x="40" y="217" font-size="14" fill="#444">주거비</text>
+  <rect x="180" y="195" width="300" height="34" rx="4" fill="#2f6fed"/>
+  <text x="490" y="217" font-size="15" font-weight="700" fill="#2f6fed">+11.6%</text>
+  <text x="40" y="278" font-size="12" fill="#aaa">버는 돈은 주는데, 사는 값은 오른다</text>
+</svg>
