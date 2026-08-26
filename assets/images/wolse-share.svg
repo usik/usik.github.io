@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" font-family="'Apple SD Gothic Neo','Malgun Gothic',sans-serif">
+  <rect width="640" height="220" fill="#ffffff"/>
+  <text x="40" y="44" font-size="22" font-weight="700" fill="#1a1a1a">전월세 거래의 62.7%가 월세</text>
+  <text x="40" y="68" font-size="13" fill="#888">2025년 · 전년 대비 +5.1%p</text>
+  <rect x="40" y="100" width="560" height="48" rx="6" fill="#cdd8ef"/>
+  <rect x="40" y="100" width="351" height="48" rx="6" fill="#2f6fed"/>
+  <text x="60" y="130" font-size="16" font-weight="700" fill="#ffffff">월세 62.7%</text>
+  <text x="470" y="130" font-size="15" font-weight="700" fill="#5b6b8a">전세 37.3%</text>
+  <text x="40" y="186" font-size="12" fill="#aaa">대출이 막히자 임대인은 전세를 월세로 돌린다</text>
+</svg>
