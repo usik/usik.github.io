@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="'Apple SD Gothic Neo','Malgun Gothic',sans-serif">
+  <rect width="640" height="300" fill="#ffffff"/>
+  <text x="40" y="40" font-size="22" font-weight="700" fill="#1a1a1a">빚내서 투자할 때, 주식만 문턱이 높다</text>
+  <text x="40" y="64" font-size="13" fill="#888">단일종목 레버리지 투자 신규 요건 · 2026</text>
+  <g fill="#2f6fed">
+    <rect x="40" y="98" width="14" height="14" rx="3"/>
+    <rect x="40" y="138" width="14" height="14" rx="3"/>
+    <rect x="40" y="178" width="14" height="14" rx="3"/>
+    <rect x="40" y="218" width="14" height="14" rx="3"/>
+  </g>
+  <text x="68" y="110" font-size="16" fill="#333">기본예탁금 <tspan font-weight="700">3,000만원</tspan></text>
+  <text x="68" y="150" font-size="16" fill="#333">사전교육 <tspan font-weight="700">3시간</tspan></text>
+  <text x="68" y="190" font-size="16" fill="#333">모의거래 <tspan font-weight="700">5시간</tspan></text>
+  <text x="68" y="230" font-size="16" fill="#333">개인 투자한도 <tspan font-weight="700">20% 이내</tspan> (추진)</text>
+  <text x="40" y="278" font-size="12" fill="#aaa">주택담보대출엔 없는 문턱들이다</text>
+</svg>
