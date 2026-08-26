@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" font-family="'Apple SD Gothic Neo','Malgun Gothic',sans-serif">
+  <rect width="640" height="360" fill="#ffffff"/>
+  <text x="40" y="40" font-size="22" font-weight="700" fill="#1a1a1a">영어유치원, 매달 이만큼</text>
+  <text x="40" y="64" font-size="13" fill="#888">월 원비(셔틀 포함) · 2025 기준</text>
+  <line x1="40" y1="300" x2="600" y2="300" stroke="#ddd" stroke-width="1.5"/>
+  <rect x="180" y="139" width="100" height="161" rx="4" fill="#5b8bf0"/>
+  <text x="230" y="129" text-anchor="middle" font-size="20" font-weight="700" fill="#5b8bf0">154만</text>
+  <text x="230" y="324" text-anchor="middle" font-size="14" fill="#444">전국 평균</text>
+  <rect x="360" y="60" width="100" height="240" rx="4" fill="#2f6fed"/>
+  <text x="410" y="50" text-anchor="middle" font-size="20" font-weight="700" fill="#2f6fed">230만</text>
+  <text x="410" y="324" text-anchor="middle" font-size="14" fill="#444">강남·목동</text>
+  <text x="40" y="350" font-size="12" fill="#aaa">'사교육비'로 잡히지만, 본질은 돌봄비다</text>
+</svg>
