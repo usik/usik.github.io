@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" font-family="'Apple SD Gothic Neo','Malgun Gothic',sans-serif">
+  <rect width="640" height="240" fill="#ffffff"/>
+  <text x="40" y="40" font-size="22" font-weight="700" fill="#1a1a1a">어린이집은 끝나는데, 퇴근은 멀다</text>
+  <rect x="60" y="110" width="393" height="44" rx="4" fill="#2f6fed"/>
+  <rect x="453" y="110" width="147" height="44" rx="4" fill="#f4b183"/>
+  <text x="235" y="138" font-size="15" font-weight="700" fill="#ffffff">보육</text>
+  <text x="505" y="138" font-size="15" font-weight="700" fill="#8a5a2a">공백</text>
+  <text x="60" y="180" font-size="12" fill="#666" text-anchor="middle">9시</text>
+  <text x="207" y="180" font-size="12" fill="#666" text-anchor="middle">12시</text>
+  <text x="355" y="180" font-size="12" fill="#666" text-anchor="middle">15시</text>
+  <text x="453" y="180" font-size="12" fill="#666" text-anchor="middle">17시</text>
+  <text x="600" y="180" font-size="12" fill="#666" text-anchor="middle">20시</text>
+  <text x="40" y="220" font-size="12" fill="#aaa">보육이 끝나는 17시부터 퇴근까지, 매일 그 몇 시간을 메워야 한다</text>
+</svg>
