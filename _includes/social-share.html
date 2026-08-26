@@ -1,13 +1,42 @@
 <section class="page__share">
-  {% if site.data.ui-text[site.locale].share_on_label %}
-    <h4 class="page__share-title">{{ site.data.ui-text[site.locale].share_on_label | default: "Share on" }}</h4>
+  {% assign _url = page.url | absolute_url %}
+  <h4 class="page__share-title">공유하기</h4>
+
+  <a href="https://t.me/share/url?url={{ _url | url_encode }}&text={{ page.title | url_encode }}" class="btn btn--info" onclick="window.open(this.href,'w','width=560,height=560'); return false;" title="텔레그램 공유"><i class="fab fa-fw fa-telegram" aria-hidden="true"></i><span> 텔레그램</span></a>
+
+  <a href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}%20{{ _url | url_encode }}" class="btn btn--twitter" onclick="window.open(this.href,'w','width=560,height=560'); return false;" title="트위터 공유"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> 트위터</span></a>
+
+  {% if site.kakao_key %}
+  <a href="#" id="kakao-share" class="btn" style="background:#FEE500;color:#191600" title="카카오톡 공유"><i class="fas fa-fw fa-comment" aria-hidden="true"></i><span> 카카오톡</span></a>
   {% endif %}
 
-  <a href="https://twitter.com/intent/tweet?{% if site.twitter.username %}via={{ site.twitter.username | url_encode }}&{% endif %}text={{ page.title | url_encode }}%20{{ page.url | absolute_url | url_encode }}" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  {% if page.header.insta_image %}
+  <a href="{{ page.header.insta_image | absolute_url }}" download class="btn" style="background:#E1306C;color:#fff" title="인스타 카드 이미지 저장"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span> 인스타 카드</span></a>
+  {% endif %}
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url | url_encode }}" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
-
-  <a href="https://plus.google.com/share?url={{ page.url | absolute_url | url_encode }}" class="btn btn--google-plus" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} Google Plus"><i class="fab fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
-
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ page.url | absolute_url | url_encode }}" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="{{ site.data.ui-text[site.locale].share_on_label | default: 'Share on' }} LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="#" class="btn btn--inverse" onclick="navigator.clipboard.writeText('{{ _url }}'); this.querySelector('span').textContent=' 복사됨!'; return false;" title="링크 복사"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span> 링크복사</span></a>
 </section>
+
+{% if site.kakao_key %}
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" crossorigin="anonymous"></script>
+<script>
+(function(){
+  if (window.Kakao && !Kakao.isInitialized()) { Kakao.init('{{ site.kakao_key }}'); }
+  var b = document.getElementById('kakao-share');
+  if (b && window.Kakao) {
+    b.addEventListener('click', function(e){
+      e.preventDefault();
+      Kakao.Share.sendDefault({
+        objectType: 'feed',
+        content: {
+          title: {{ page.title | jsonify }},
+          description: {{ page.excerpt | strip_html | truncate: 100 | jsonify }},
+          imageUrl: '{{ page.header.og_image | absolute_url }}',
+          link: { mobileWebUrl: '{{ _url }}', webUrl: '{{ _url }}' }
+        }
+      });
+    });
+  }
+})();
+</script>
+{% endif %}

@@ -88,7 +88,8 @@ facebook:
   username               :
   app_id                 :
   publisher              :
-og_image                 : # Open Graph/Twitter default site image
+og_image                 : "/assets/images/cards/default-og.png" # Open Graph/Twitter default site image
+kakao_key                : # 카카오 JavaScript 키 (넣으면 카카오톡 공유 버튼 활성화)
 # For specifying social profiles
 # - https://developers.google.com/structured-data/customize/social-profiles
 social:
