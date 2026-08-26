@@ -25,6 +25,17 @@
   .page__content li { line-height: 1.9; letter-spacing: -0.003em; }
   .page__content h2 { margin-top: 2.2em; }
   .page__content h3 { margin-top: 1.6em; }
+
+  /* 모바일: 넓은 표는 가로 스크롤(잘림 방지) */
+  .page__content table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+  }
+  /* 공유 카드 이미지/차트가 넘치지 않게 */
+  .page__content img { max-width: 100%; height: auto; }
 </style>
 
 <!-- insert favicons. use https://realfavicongenerator.net/ -->
