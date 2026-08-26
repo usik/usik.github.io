@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 380" font-family="'Apple SD Gothic Neo','Malgun Gothic',sans-serif">
+  <rect width="640" height="380" fill="#ffffff"/>
+  <text x="320" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#1a1a1a">거주지 트릴레마</text>
+  <polygon points="320,110 110,315 530,315" fill="#eef3fe" stroke="#2f6fed" stroke-width="2"/>
+  <circle cx="320" cy="110" r="5" fill="#2f6fed"/>
+  <circle cx="110" cy="315" r="5" fill="#2f6fed"/>
+  <circle cx="530" cy="315" r="5" fill="#2f6fed"/>
+  <text x="320" y="95" text-anchor="middle" font-size="16" font-weight="700" fill="#2f6fed">직주근접</text>
+  <text x="92" y="342" text-anchor="middle" font-size="16" font-weight="700" fill="#2f6fed">자가 소유</text>
+  <text x="548" y="342" text-anchor="middle" font-size="16" font-weight="700" fill="#2f6fed">상급지</text>
+  <text x="320" y="245" text-anchor="middle" font-size="18" font-weight="700" fill="#555">셋 중 둘만</text>
+  <text x="320" y="372" text-anchor="middle" font-size="12" fill="#aaa">종잣돈이 없으면, 직주근접 상급지를 '사는' 것부터 막힌다</text>
+</svg>
