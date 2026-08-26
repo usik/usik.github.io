@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" font-family="'Apple SD Gothic Neo','Malgun Gothic',sans-serif">
+  <rect width="640" height="360" fill="#ffffff"/>
+  <text x="40" y="40" font-size="22" font-weight="700" fill="#1a1a1a">장기보유 세제 혜택: 부동산 vs 주식</text>
+  <text x="40" y="64" font-size="13" fill="#888">장기보유특별공제 최대 공제율</text>
+  <line x1="40" y1="300" x2="600" y2="300" stroke="#ddd" stroke-width="1.5"/>
+  <rect x="170" y="60" width="110" height="240" rx="4" fill="#2f6fed"/>
+  <text x="225" y="50" text-anchor="middle" font-size="22" font-weight="700" fill="#2f6fed">80%</text>
+  <text x="225" y="324" text-anchor="middle" font-size="14" fill="#444">부동산 (1주택)</text>
+  <rect x="360" y="294" width="110" height="6" rx="3" fill="#c9c9c9"/>
+  <text x="415" y="284" text-anchor="middle" font-size="22" font-weight="700" fill="#999">0%</text>
+  <text x="415" y="324" text-anchor="middle" font-size="14" fill="#444">주식</text>
+  <text x="40" y="350" font-size="12" fill="#aaa">오래 쥐고 있어도, 주식엔 이런 혜택이 없다</text>
+</svg>
