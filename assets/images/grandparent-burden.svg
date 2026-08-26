@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="'Apple SD Gothic Neo','Malgun Gothic',sans-serif">
+  <rect width="640" height="300" fill="#ffffff"/>
+  <text x="40" y="40" font-size="22" font-weight="700" fill="#1a1a1a">손주를 돌보는 조부모의 속마음</text>
+  <text x="40" y="64" font-size="13" fill="#888">손주 돌봄 조부모 대상 조사</text>
+  <text x="40" y="118" font-size="13" fill="#444">원치 않지만 떠맡음</text>
+  <rect x="250" y="102" width="350" height="24" rx="4" fill="#eef1f6"/>
+  <rect x="250" y="102" width="187" height="24" rx="4" fill="#2f6fed"/>
+  <text x="445" y="120" font-size="14" font-weight="700" fill="#2f6fed">53.3%</text>
+  <text x="40" y="178" font-size="13" fill="#444">육체적 피로 증가</text>
+  <rect x="250" y="162" width="350" height="24" rx="4" fill="#eef1f6"/>
+  <rect x="250" y="162" width="258" height="24" rx="4" fill="#2f6fed"/>
+  <text x="516" y="180" font-size="14" font-weight="700" fill="#2f6fed">73.7%</text>
+  <text x="40" y="238" font-size="13" fill="#444">정신적 부담 증가</text>
+  <rect x="250" y="222" width="350" height="24" rx="4" fill="#eef1f6"/>
+  <rect x="250" y="222" width="211" height="24" rx="4" fill="#2f6fed"/>
+  <text x="469" y="240" font-size="14" font-weight="700" fill="#2f6fed">60.4%</text>
+  <text x="40" y="284" font-size="12" fill="#aaa">도움이라기보다, 또 다른 세대의 희생에 가깝다</text>
+</svg>
