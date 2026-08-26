@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" font-family="'Apple SD Gothic Neo','Malgun Gothic',sans-serif">
+  <rect width="640" height="360" fill="#ffffff"/>
+  <text x="40" y="40" font-size="22" font-weight="700" fill="#1a1a1a">사교육 참여율, 초등이 가장 높다</text>
+  <text x="40" y="64" font-size="13" fill="#888">학교급별 참여율 · 통계청</text>
+  <line x1="40" y1="300" x2="600" y2="300" stroke="#ddd" stroke-width="1.5"/>
+  <rect x="110" y="95" width="90" height="205" rx="4" fill="#2f6fed"/>
+  <text x="155" y="85" text-anchor="middle" font-size="19" font-weight="700" fill="#2f6fed">85.2%</text>
+  <text x="155" y="324" text-anchor="middle" font-size="14" fill="#444">초등학생</text>
+  <rect x="275" y="117" width="90" height="183" rx="4" fill="#5b8bf0"/>
+  <text x="320" y="107" text-anchor="middle" font-size="19" font-weight="700" fill="#5b8bf0">76.2%</text>
+  <text x="320" y="324" text-anchor="middle" font-size="14" fill="#444">중학생</text>
+  <rect x="440" y="142" width="90" height="158" rx="4" fill="#9cb8f6"/>
+  <text x="485" y="132" text-anchor="middle" font-size="19" font-weight="700" fill="#7a9cf2">66.0%</text>
+  <text x="485" y="324" text-anchor="middle" font-size="14" fill="#444">고등학생</text>
+  <text x="40" y="350" font-size="12" fill="#aaa">가장 덜 경쟁적일 나이의 참여율이 가장 높은 이유 — 상당수가 돌봄이다</text>
+</svg>
