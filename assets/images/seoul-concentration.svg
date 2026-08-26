@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="'Apple SD Gothic Neo','Malgun Gothic',sans-serif">
+  <rect width="640" height="300" fill="#ffffff"/>
+  <text x="40" y="44" font-size="22" font-weight="700" fill="#1a1a1a">국토의 약 12%에, 청년의 56%가 몰린다</text>
+  <text x="40" y="68" font-size="13" fill="#888">수도권 집중 · 청년은 20~39세 기준</text>
+
+  <!-- Row 1: 면적 -->
+  <text x="40" y="130" font-size="14" fill="#444">국토 면적 중 수도권</text>
+  <rect x="230" y="115" width="360" height="24" rx="4" fill="#eef1f6"/>
+  <rect x="230" y="115" width="43" height="24" rx="4" fill="#9cb8f6"/>
+  <text x="285" y="133" font-size="14" font-weight="700" fill="#5b7bd0">약 12%</text>
+
+  <!-- Row 2: 청년 -->
+  <text x="40" y="200" font-size="14" fill="#444">청년(20~39) 중 수도권</text>
+  <rect x="230" y="185" width="360" height="24" rx="4" fill="#eef1f6"/>
+  <rect x="230" y="185" width="203" height="24" rx="4" fill="#2f6fed"/>
+  <text x="443" y="203" font-size="14" font-weight="700" fill="#2f6fed">56.4%</text>
+
+  <text x="40" y="270" font-size="12" fill="#aaa">면적의 좁음과 인구의 쏠림 사이의 간극이, 분산 정책이 실패한 자리다</text>
+</svg>
