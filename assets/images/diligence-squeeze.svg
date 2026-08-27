@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" font-family="'Apple SD Gothic Neo','Malgun Gothic',sans-serif">
+  <rect width="720" height="430" fill="#ffffff"/>
+  <text x="360" y="46" text-anchor="middle" font-size="25" font-weight="800" fill="#1a1a1a">도움받기엔 너무 부자, 집 사기엔 너무 가난</text>
+  <text x="360" y="74" text-anchor="middle" font-size="14" fill="#8a8a8a">노력이 자격 박탈 사유가 되는 구조</text>
+
+  <!-- card 1 -->
+  <rect x="30" y="110" width="200" height="230" rx="16" fill="#f5f7fd" stroke="#dbe4fb" stroke-width="2"/>
+  <circle cx="130" cy="180" r="34" fill="#fdeaea" stroke="#e23b3b" stroke-width="2.5"/>
+  <text x="130" y="194" text-anchor="middle" font-size="40" font-weight="800" fill="#e23b3b">✕</text>
+  <text x="130" y="268" text-anchor="middle" font-size="20" font-weight="800" fill="#333">정책대출</text>
+  <text x="130" y="300" text-anchor="middle" font-size="14" fill="#888">소득 초과 → 탈락</text>
+
+  <!-- card 2 -->
+  <rect x="260" y="110" width="200" height="230" rx="16" fill="#f5f7fd" stroke="#dbe4fb" stroke-width="2"/>
+  <circle cx="360" cy="180" r="34" fill="#fdeaea" stroke="#e23b3b" stroke-width="2.5"/>
+  <text x="360" y="194" text-anchor="middle" font-size="40" font-weight="800" fill="#e23b3b">✕</text>
+  <text x="360" y="268" text-anchor="middle" font-size="20" font-weight="800" fill="#333">신생아 특례</text>
+  <text x="360" y="300" text-anchor="middle" font-size="14" fill="#888">순자산 초과 → 탈락</text>
+
+  <!-- card 3 -->
+  <rect x="490" y="110" width="200" height="230" rx="16" fill="#f5f7fd" stroke="#dbe4fb" stroke-width="2"/>
+  <circle cx="590" cy="180" r="34" fill="#fdeaea" stroke="#e23b3b" stroke-width="2.5"/>
+  <text x="590" y="194" text-anchor="middle" font-size="40" font-weight="800" fill="#e23b3b">✕</text>
+  <text x="590" y="268" text-anchor="middle" font-size="20" font-weight="800" fill="#333">상급지 매수</text>
+  <text x="590" y="300" text-anchor="middle" font-size="14" fill="#888">종잣돈 부족 → 불가</text>
+
+  <text x="360" y="400" text-anchor="middle" font-size="14" fill="#aaa">소득을 높여도, 자산을 모아도 — 결국 문은 닫혀 있다</text>
+</svg>

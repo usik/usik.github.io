@@ -7,6 +7,8 @@ excerpt: "도움받기엔 너무 부자고, 집을 사기엔 너무 가난하다
 
 아이가 태어나고 얼마 지나지 않아, 신생아 특례대출을 알아봤다. 출산 가구에 낮은 금리로 집을 살 수 있게 해준다는 제도였다. 계산기를 두드리기도 전에 한 줄에서 멈췄다. **순자산 4.88억 이하.** 우리는 그 선을 넘어 있었다.
 
+![도움받기엔 너무 부자, 집 사기엔 너무 가난](/assets/images/diligence-squeeze.svg)
+
 돌이켜보면 넘는 게 당연했다. 우리는 각자 흙수저로 시작해, 신입으로 입사한 뒤 5년쯤 악착같이 모으고 굴렸다. 그러다 만나 결혼했고, 아이를 가졌다. 아이가 태어날 무렵이면 이미 한 사람당 5년, 둘이 합쳐 10년치 재테크가 쌓여 있었다. 순자산이 4.88억을 넘은 건 사고가 아니라, 성실히 산 사람에게 정해진 결말이었다.
 
 소득도 마찬가지다. 대기업 맞벌이의 합산 연봉은 대부분의 정책대출 소득 요건을 가볍게 초과한다.
@@ -48,3 +50,11 @@ excerpt: "도움받기엔 너무 부자고, 집을 사기엔 너무 가난하다
 - [가계부채 관리 강화 방안 (금융위원회)](https://www.fsc.go.kr/no010101/84824)
 - [디딤돌대출 2026 조건 정리](https://brandhome.kr/didimdol-loan/)
 - [신생아 특례대출 2026 (KB)](https://kbthink.com/loan-guide/newborn-special.html)
+
+## 관련 영상
+
+같은 문제를 짚은 영상이 있어 함께 남긴다 — *"노오력 한 죄로 모든 정책에서 소외되는 사람들"* (흥청망청).
+
+<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:720px;margin:1em 0;border-radius:12px">
+  <iframe src="https://www.youtube.com/embed/vkcjxN30EYQ" title="노오력 한 죄로 모든 정책에서 소외되는 사람들" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</div>
