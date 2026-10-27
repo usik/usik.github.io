@@ -1,16 +1,9 @@
-# EverStory backend deployment checklist
+# EverStory backend
 
-Frontend: https://usik.github.io/everstory/ (GitHub Pages).
+The old `worker.mjs` is a historical deployment template, not the production backend. Do not enable it publicly; it lacks the MVP's durable history, per-account authorization and atomic usage limits.
 
-This folder contains a **deployment template, not a running backend**.
+The complete current application source lives in [`../mvp`](../mvp), with API implementation in `mvp/lib/api.mjs`, Supabase migrations in `mvp/supabase/001_everstory.sql`, and tests in `mvp/tests/api.test.mjs`.
 
-1. Create a Cloudflare Worker and a KV namespace named WAITLIST; bind KV to the Worker.
-2. Set Worker environment variable ALLOWED_ORIGIN=https://usik.github.io.
-3. Add secret GEMINI_API_KEY in Cloudflare (never put it in frontend source).
-4. Set GEMINI_MODEL to a currently available Flash model ID. Verify the model is available in your Google account.
-5. Configure a public contact email, privacy policy, retention period, and deletion workflow before accepting personal information.
-6. Add Turnstile, per-IP/user rate limits, request budgets, and abuse monitoring before enabling story API. Set ENABLE_PUBLIC_STORY=true only then.
-7. Update frontend signup to POST JSON to /api/waitlist on your Worker URL and story to POST /api/story.
-8. Test signup storage, duplicate emails, consent, four languages, mobile browser, and LLM error handling.
+Application: https://everstory.usik-luke.chatgpt.site
 
-Important: existing frontend signup still points to an empty Google Apps Script endpoint; it will NOT store signups until connected. The story preview is scripted, not live Gemini.
+**Activation pending:** Supabase project connection, migration/retention setup, Gemini server secret, provider-region/privacy configuration, real account sign-in and live E2E validation. The deployed server returns explicit unconfigured errors until these steps succeed. Deployment is not MVP completion.
