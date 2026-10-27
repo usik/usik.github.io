@@ -13,9 +13,10 @@ export function makeEdgeHandler(handle, config, env, fetcher=fetch) {
   if(!data||typeof data.path!=='string'||!/^\/api\/(session|story|waitlist|data|export)(\?|$)/.test(data.path)||!['GET','POST','DELETE'].includes(data.method)||data.path.length>2000)return json({error:'invalid_envelope'},400);
   if(data.user!==null&&(!data.user||typeof data.user.userId!=='string'||!data.user.userId||data.user.userId.length>200||typeof data.user.displayName!=='string'))return json({error:'invalid_identity'},400);
   if(data.body!==null&&typeof data.body!=='string')return json({error:'invalid_envelope'},400);
+  if(data.geminiApiKey!=null&&(typeof data.geminiApiKey!=='string'||data.geminiApiKey.length>256))return json({error:'invalid_envelope'},400);
   const headers={'cf-connecting-ip':String(data.ip||'unknown').slice(0,100),'Content-Type':'application/json'};
   if(data.origin)headers.Origin=String(data.origin);if(data.fetchSite)headers['sec-fetch-site']=String(data.fetchSite);
   const inner=new Request(config.origin+data.path,{method:data.method,headers,...(data.method!=='GET'&&data.body!==null?{body:data.body}:{})});
-  return handle(inner,{...env,PUBLIC_ORIGIN:config.origin},data.user,fetcher);
+  return handle(inner,{...env,GEMINI_API_KEY:data.geminiApiKey||env.GEMINI_API_KEY,PUBLIC_ORIGIN:config.origin},data.user,fetcher);
  };
 }
