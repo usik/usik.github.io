@@ -32,3 +32,14 @@ test('upstream immutable headers become mutable for the hosting framework',async
  assert.doesNotThrow(()=>r.headers.set('Cache-Control','no-store'));
  assert.equal(r.status,307);assert.equal(r.headers.get('location'),origin+'/other');
 });
+
+test('model credential comes only from server env, not a visitor action',async()=>{
+ let observed;
+ const edge=makeEdgeHandler((req,env)=>{observed=env.GEMINI_API_KEY;return Response.json({ok:true})},{origin,tokenDigest},{});
+ const r=await forwardToBackend(new Request(origin+'/api/story',{method:'POST',headers:{Origin:origin},body:JSON.stringify({geminiApiKey:'visitor-value',message:'hello'})}),{EVERSTORY_BACKEND_URL:origin+'/edge',EVERSTORY_BACKEND_TOKEN:token,GEMINI_API_KEY:'server-test-key'},null,async(url,init)=>edge(new Request(url,init)));
+ assert.equal(observed,'server-test-key');assert.deepEqual(await r.json(),{ok:true});
+});
+test('unauthenticated envelope cannot supply model credentials',async()=>{
+ let called=false;const edge=makeEdgeHandler(()=>{called=true;return Response.json({ok:true})},{origin,tokenDigest},{});
+ const r=await edge(new Request(origin,{method:'POST',body:JSON.stringify({geminiApiKey:'visitor-value',path:'/api/story',method:'POST',body:'{}',user:null})}));assert.equal(r.status,401);assert.equal(called,false);
+});

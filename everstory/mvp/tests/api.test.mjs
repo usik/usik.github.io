@@ -62,7 +62,7 @@ test('turn generation, idempotent retry, free text, persistent memory and owner 
  assert.equal((await call('story',{...p,message:'different'})).status,409);
  const b=action('kael',1,'내가 준 팔찌를 아직 갖고 있네.');r=await call('story',b);assert.equal(r.status,200);
  const memory=JSON.parse(lastModel.contents[0].parts[0].text);assert.equal(memory.memory,output.summary);assert.equal(memory.recent.length,1);assert.equal(memory.action,b.message);
- const stored=await (await call('story?character=kael&language=ko')).json();assert.equal(stored.turns.length,2);assert.equal(stored.story.version,2);
+ const stored=await (await call('story?character=kael&language=ko')).json();assert.equal(stored.turns.length,2);assert.equal(stored.story.version,2);assert.deepEqual(stored.story.state.playerNotes,[b.message]);
  const other=await (await call('story?character=kael&language=ko',undefined,{userId:'account-B'})).json();assert.equal(other.turns.length,0);
  const c=await (await call('story?character=rin&language=ko')).json();assert.equal(c.turns.length,0);
  const exported=await (await call('export')).json();assert.equal(exported.turns.length,2);
