@@ -12,9 +12,10 @@ const schema={type:'object',properties:{scene:{type:'string'},choices:{type:'arr
 async function digest(s){const h=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return Array.from(new Uint8Array(h),b=>b.toString(16).padStart(2,'0')).join('');}
 export async function handle(request,env,user,fetcher=fetch){
  const u=new URL(request.url), path=u.pathname.replace(/^\/api\//,'');
- const configured=env.SERVICE_ENABLED==='true'&&!!(env.SUPABASE_URL&&env.SUPABASE_SERVICE_ROLE_KEY), aiReady=configured&&!!env.GEMINI_API_KEY;
+ const dbKey=env.SUPABASE_SECRET_KEY||env.SUPABASE_SERVICE_ROLE_KEY;
+ const configured=env.SERVICE_ENABLED==='true'&&!!(env.SUPABASE_URL&&dbKey), aiReady=configured&&!!env.GEMINI_API_KEY;
  async function db(route,body,method='POST',prefer){
-  const r=await fetcher(env.SUPABASE_URL.replace(/\/$/,'')+'/rest/v1/'+route,{method,headers:{apikey:env.SUPABASE_SERVICE_ROLE_KEY,Authorization:'Bearer '+env.SUPABASE_SERVICE_ROLE_KEY,'Content-Type':'application/json',...(prefer?{Prefer:prefer}:{})},...(body!==undefined?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(12000)});
+  const r=await fetcher(env.SUPABASE_URL.replace(/\/$/,'')+'/rest/v1/'+route,{method,headers:{apikey:dbKey,...(dbKey.startsWith('sb_secret_')?{}:{Authorization:'Bearer '+dbKey}),'Content-Type':'application/json',...(prefer?{Prefer:prefer}:{})},...(body!==undefined?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(12000)});
   if(!r.ok)throw Error('storage_unavailable');const text=await r.text();return text?JSON.parse(text):null;
  }
  try{
@@ -28,7 +29,7 @@ export async function handle(request,env,user,fetcher=fetch){
  if(!['story','waitlist','data','export'].includes(path))return err('not_found',404);
  if(path!=='waitlist'&&!user)return err('sign_in_required',401);
  if(!configured)return err('storage_unconfigured',503);
- const ip=await digest((request.headers.get('cf-connecting-ip')||'unknown')+':'+env.SUPABASE_SERVICE_ROLE_KEY);
+ const ip=await digest((request.headers.get('cf-connecting-ip')||'unknown')+':'+dbKey);
  const key=(obj)=>new URLSearchParams(obj).toString();
  if(path==='data'&&request.method==='DELETE'){
   await db('everstory_stories?'+key({owner_id:'eq.'+user.userId}),undefined,'DELETE');return reply({ok:true});
