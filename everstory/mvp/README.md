@@ -2,13 +2,22 @@
 
 Continuation of https://github.com/usik/usik.github.io/tree/master/everstory . Retains the dark webtoon character catalogue and Korean/Japanese/English/Spanish UI. Next-compatible Vinext server on Sites; Supabase PostgreSQL storage; Gemini Flash generation. Public origin: https://everstory.usik-luke.chatgpt.site . The GitHub Pages version remains a separate static legacy preview until redirected.
 
-## Production activation
+## Production deployment
 
-1. Connect the owner's Supabase project. Apply `supabase/001_everstory.sql` once as a migration. Existing data must be backed up before changing any applied migration. Tables have RLS and no anonymous/authenticated direct access; only the server service role calls the RPCs.
-2. Configure `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `GEMINI_API_KEY`, `GEMINI_MODEL` (default `gemini-flash-latest`), and `PUBLIC_ORIGIN` via Sites runtime secrets. Never paste keys into chat, commit them, or ship them to the client. No OpenAI key is used.
-3. Confirm Gemini billing/data terms and Supabase storage region; update the privacy notice before activation. Enable pg_cron and schedule the bounded retention SQL commented in the migration. Verify both active-request and scheduled cleanup.
-4. Set `SERVICE_ENABLED=true` only after the prior activation checks, then redeploy the saved source to apply environment changes. Missing secrets fail closed with an honest setup message; never replace real AI with a fake response.
-5. With a real test account, complete desktop and physical-mobile sign-in, register a disposable controlled email twice, generate a first scene, use each of 3 recommendations and custom input, reload, switch characters/languages, and verify isolation. Export/delete only disposable test data. Verify upstream keys never appear in page source or network response.
+Public app: https://everstory.usik-luke.chatgpt.site . Supabase project `ucgdbqsnbtysasusvwdx` is in Seoul (`ap-northeast-2`). The initial schema and daily retention job are applied. The site server resolves the authenticated platform identity and forwards requests to the `everstory-api` Edge Function over HTTPS using a server-only random bearer token. Only its SHA-256 digest is in `supabase/functions/everstory-api/config.mjs`; the plaintext is stored in Sites runtime secrets. The Edge Function uses Supabase's built-in server credentials. No database admin key is sent to the browser or copied into Sites.
+
+The Edge handler validates the shared credential, method/path/body size and trusted identity envelope before invoking the same tested API core. PostgreSQL tables have RLS and no visitor access; RPC functions are SECURITY INVOKER and only service_role may execute them. Sites owns visitor sign-in. The bridge's custom authentication replaces the Edge gateway JWT check; `verify_jwt=false` is intentional and does not make requests anonymous.
+
+1. To rotate the bridge credential, generate a fresh high-entropy token, replace the hash in the Edge configuration, redeploy the Edge Function and update the matching Sites runtime secret. Never log or commit plaintext credentials.
+2. Add `GEMINI_API_KEY` in the Supabase project's **Edge Function Secrets**. Set `GEMINI_MODEL` if needed (default `gemini-flash-latest`). Only the key name is documented; no value belongs in source. Confirm the Google API billing/data terms and finalize AI transfer notice before launch. Missing Gemini credentials leave AI unavailable while email signup works.
+3. Verify `EVERSTORY_BACKEND_URL` and `EVERSTORY_BACKEND_TOKEN` in Sites runtime secrets. Redeploy a saved version after changing Sites variables. Supabase Edge secrets apply immediately.
+4. With a real test account, complete desktop/physical-mobile sign-in, generate a first scene, use all three recommendations and custom input, reload and switch characters/languages. Verify account isolation and export/delete using disposable test data only. Email signup is separate from login.
+
+Daily retention runs at 03:17 UTC: inactive stories after 90 days, waitlist emails after one year, expired usage counters after one day. The cron job is `everstory-retention`. Verify it in `cron.job` and `cron.job_run_details`. Supabase migration history records the initial schema and retention setup; do not rerun the initial schema on an existing database.
+
+## Edge source sync
+
+The Edge deployment includes `api.mjs`, `characters.mjs`, `worlds.mjs`, `bridge.mjs`, `index.js` and `config.mjs` from `supabase/functions/everstory-api/`. The first three are deployment copies of `lib/`; update them before deploying a core change. The project frontend uses `app/api/[...path]/route.ts` and `lib/bridge.mjs` to keep platform identity server-side.
 
 ## Runtime contracts
 
@@ -26,6 +35,6 @@ History is stored in separate turns, not browser-only; displayed history is late
 
 Ten original AI-generated adult character portraits in `public/characters`. Generated with the built-in image tool, using distinct character-specific prompts. The prompt set is recorded in `art-prompts.json`. Source UI is based on the original EverStory index.html. All character IDs and translated names were retained.
 
-## GitHub source snapshot
+## GitHub portrait assets
 
-This directory contains the full MVP source. Portrait binaries are transported as `.webp.base64`; run `node scripts/restore-assets.mjs` to restore them (also runs before dev/build). This snapshot was taken from deployed source commit `ca49ae1fcb83b8a6bbaab885917f5f2be4848f00`. Production secrets and data are not included. The original GitHub Pages preview remains in `everstory/index.html` until production AI and storage activation succeeds.
+Run `node scripts/restore-assets.mjs` to reconstruct `.webp` files from the checked-in `.webp.base64` assets. The GitHub dev/build scripts also restore them automatically.
