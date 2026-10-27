@@ -1,6 +1,6 @@
 # EverStory MVP
 
-Continuation of https://github.com/usik/usik.github.io/tree/master/everstory . Retains the dark webtoon character catalogue and Korean/Japanese/English/Spanish UI. Next-compatible Vinext server on Sites; Supabase PostgreSQL storage; Gemini Flash generation. Public origin: https://everstory.usik-luke.chatgpt.site . The GitHub Pages version remains a separate static legacy preview until redirected.
+Continuation of https://github.com/usik/usik.github.io/tree/master/everstory . Retains the dark webtoon character catalogue and Korean/Japanese/English/Spanish UI. Next-compatible Vinext server on Sites; Supabase PostgreSQL storage; Gemini Flash generation. Public origin: https://everstory.usik-luke.chatgpt.site . The original GitHub Pages entry redirects to the hosted app.
 
 ## Production deployment
 
@@ -35,6 +35,14 @@ History is stored in separate turns, not browser-only; displayed history is late
 
 Ten original AI-generated adult character portraits in `public/characters`. Generated with the built-in image tool, using distinct character-specific prompts. The prompt set is recorded in `art-prompts.json`. Source UI is based on the original EverStory index.html. All character IDs and translated names were retained.
 
+## Contextual illustrations (2026-10-27)
+
+Each adult character retains the original neutral portrait plus four identity-matched expression illustrations (`warm`, `tense`, `vulnerable`, `resolute`) under `public/characters/scenes`. The model chooses a strict allowlisted `state.visual` ID, never an image URL. The server validates it and atomically saves it in `everstory_turns.visual` with the text. History, idempotent retries and exports preserve that ID. Previous turns use `neutral`; the additive `supabase/002_scene_visuals.sql` migration does not rewrite story text or remove history.
+
+The frontend shows the latest expression on the character panel and inserts an illustration when the expression changes in the conversation. An illustration preview gallery is available before sign-in. Missing files fall back to the original portrait. Images are lazy-loaded WebP assets; they do not trigger a paid image API call during chat. Runtime image generation, image unlocks, numeric relationship stats, alternate openings and branching are separate future features.
+
+Competitor findings and implementation boundaries: `docs/competitor-review-2026-10-27.md`. API tests use a stub model with real PGlite storage; browser UI fixtures are temporary and must never be packaged or represented as production AI chat tests.
+
 ## GitHub portrait assets
 
-Run `node scripts/restore-assets.mjs` to reconstruct `.webp` files from checked-in `.webp.base64` assets. Dev/build restores them automatically.
+In the GitHub mirror, run `node scripts/restore-assets.mjs` to reconstruct the original `.webp` portraits from checked-in `.webp.base64` assets. Dev/build restores them automatically. The new expression WebP files are checked in directly.

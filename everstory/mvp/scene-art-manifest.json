@@ -1,0 +1,114 @@
+{
+  "version": 1,
+  "generated": "2026-10-27",
+  "method": "Original portrait reference; identity-preserving four-expression character sheets; sliced and encoded as WebP.",
+  "visuals": [
+    "neutral",
+    "warm",
+    "tense",
+    "vulnerable",
+    "resolute"
+  ],
+  "characters": [
+    {
+      "id": "kael",
+      "neutral": "/characters/kael.webp",
+      "expressions": {
+        "warm": "/characters/scenes/kael-warm.webp",
+        "tense": "/characters/scenes/kael-tense.webp",
+        "vulnerable": "/characters/scenes/kael-vulnerable.webp",
+        "resolute": "/characters/scenes/kael-resolute.webp"
+      }
+    },
+    {
+      "id": "noah",
+      "neutral": "/characters/noah.webp",
+      "expressions": {
+        "warm": "/characters/scenes/noah-warm.webp",
+        "tense": "/characters/scenes/noah-tense.webp",
+        "vulnerable": "/characters/scenes/noah-vulnerable.webp",
+        "resolute": "/characters/scenes/noah-resolute.webp"
+      }
+    },
+    {
+      "id": "ian",
+      "neutral": "/characters/ian.webp",
+      "expressions": {
+        "warm": "/characters/scenes/ian-warm.webp",
+        "tense": "/characters/scenes/ian-tense.webp",
+        "vulnerable": "/characters/scenes/ian-vulnerable.webp",
+        "resolute": "/characters/scenes/ian-resolute.webp"
+      }
+    },
+    {
+      "id": "rin",
+      "neutral": "/characters/rin.webp",
+      "expressions": {
+        "warm": "/characters/scenes/rin-warm.webp",
+        "tense": "/characters/scenes/rin-tense.webp",
+        "vulnerable": "/characters/scenes/rin-vulnerable.webp",
+        "resolute": "/characters/scenes/rin-resolute.webp"
+      }
+    },
+    {
+      "id": "haru",
+      "neutral": "/characters/haru.webp",
+      "expressions": {
+        "warm": "/characters/scenes/haru-warm.webp",
+        "tense": "/characters/scenes/haru-tense.webp",
+        "vulnerable": "/characters/scenes/haru-vulnerable.webp",
+        "resolute": "/characters/scenes/haru-resolute.webp"
+      }
+    },
+    {
+      "id": "leo",
+      "neutral": "/characters/leo.webp",
+      "expressions": {
+        "warm": "/characters/scenes/leo-warm.webp",
+        "tense": "/characters/scenes/leo-tense.webp",
+        "vulnerable": "/characters/scenes/leo-vulnerable.webp",
+        "resolute": "/characters/scenes/leo-resolute.webp"
+      }
+    },
+    {
+      "id": "ryu",
+      "neutral": "/characters/ryu.webp",
+      "expressions": {
+        "warm": "/characters/scenes/ryu-warm.webp",
+        "tense": "/characters/scenes/ryu-tense.webp",
+        "vulnerable": "/characters/scenes/ryu-vulnerable.webp",
+        "resolute": "/characters/scenes/ryu-resolute.webp"
+      }
+    },
+    {
+      "id": "sol",
+      "neutral": "/characters/sol.webp",
+      "expressions": {
+        "warm": "/characters/scenes/sol-warm.webp",
+        "tense": "/characters/scenes/sol-tense.webp",
+        "vulnerable": "/characters/scenes/sol-vulnerable.webp",
+        "resolute": "/characters/scenes/sol-resolute.webp"
+      }
+    },
+    {
+      "id": "eve",
+      "neutral": "/characters/eve.webp",
+      "expressions": {
+        "warm": "/characters/scenes/eve-warm.webp",
+        "tense": "/characters/scenes/eve-tense.webp",
+        "vulnerable": "/characters/scenes/eve-vulnerable.webp",
+        "resolute": "/characters/scenes/eve-resolute.webp"
+      }
+    },
+    {
+      "id": "ash",
+      "neutral": "/characters/ash.webp",
+      "expressions": {
+        "warm": "/characters/scenes/ash-warm.webp",
+        "tense": "/characters/scenes/ash-tense.webp",
+        "vulnerable": "/characters/scenes/ash-vulnerable.webp",
+        "resolute": "/characters/scenes/ash-resolute.webp"
+      }
+    }
+  ]
+}
