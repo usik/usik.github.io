@@ -1,0 +1,17 @@
+{
+  "tool": "built-in image_gen",
+  "common": "Use case: illustration-story. Asset: standalone vertical character portrait for EverStory interactive fiction. Polished Korean romantic webtoon illustration, expressive eyes, elegant fine linework, soft cinematic lighting, painterly gradients. Chest up portrait, one person only, face centered in upper half. Original fictional character. No text, captions, labels, numbers, panels, borders, watermarks. Portrait 2:3 aspect ratio. All people are adults.",
+  "subjects": {
+    "kael": "Doyun Seo, Korean man age 27, tousled black hair, white open collar shirt, rain at a Seoul bus stop, melancholic first love",
+    "noah": "Nox, adult male knight age 29, silver white short hair, black armored coat with gold details, ruined moonlit fantasy kingdom, guarded expression",
+    "ian": "Ian Cha, Korean man age 31, neat dark hair, tailored charcoal business suit, glass office at dusk, cool confident expression",
+    "rin": "Rin, adult woman age 24, violet bob hair, lavender eyes, dark jacket, midnight clock shop and scattered notes, mysterious expression",
+    "haru": "Haru, adult man age 24, soft brown hair, green varsity jacket, university cherry blossoms, warm shy smile",
+    "leo": "Yuna, adult Korean woman age 26, long chestnut hair, cream cardigan and cafe apron, warm cozy cafe, gentle smile",
+    "ryu": "Sehyun Ryu, adult East Asian prince age 28, long black hair in half up style, dark red embroidered imperial robes, lantern palace, elegant guarded expression",
+    "sol": "Seoa Kang, adult Korean woman age 27, short black hair, elegant black performance dress, violin backstage amber spotlight, determined expression",
+    "eve": "Evelyn, adult woman age 28, wavy platinum blonde hair, blue coat, glowing handwritten letter, twilight antique railway station, wistful smile",
+    "ash": "Yunjae, adult Korean man age 28, black hair and thin glasses, navy shirt, late night design studio, subtle restrained smile"
+  },
+  "paths": "public/characters/{id}.webp"
+}
