@@ -8,7 +8,7 @@ export async function forwardToBackend(request, env, user, fetcher=fetch) {
   try {
     const upstream = await fetcher(env.EVERSTORY_BACKEND_URL, {
       method:'POST', headers:{'Content-Type':'application/json',Authorization:'Bearer '+env.EVERSTORY_BACKEND_TOKEN},
-      body:JSON.stringify({path:url.pathname+url.search,method:request.method,body:size?new TextDecoder().decode(bytes):null,origin:request.headers.get('origin'),fetchSite:request.headers.get('sec-fetch-site'),ip:request.headers.get('cf-connecting-ip')||'unknown',user:user?{userId:user.userId,displayName:user.displayName}:null}),
+      body:JSON.stringify({geminiApiKey:env.GEMINI_API_KEY||null,path:url.pathname+url.search,method:request.method,body:size?new TextDecoder().decode(bytes):null,origin:request.headers.get('origin'),fetchSite:request.headers.get('sec-fetch-site'),ip:request.headers.get('cf-connecting-ip')||'unknown',user:user?{userId:user.userId,displayName:user.displayName}:null}),
       signal:AbortSignal.timeout(80000)
     });
     // Fetch responses have immutable headers; Vinext adds its cache headers.
