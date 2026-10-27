@@ -1,0 +1,7 @@
+{
+  "project_id": "ucgdbqsnbtysasusvwdx",
+  "region": "ap-northeast-2",
+  "function": "everstory-api",
+  "schema_migration": "everstory_initial_schema",
+  "retention_migration": "everstory_retention_jobs"
+}
