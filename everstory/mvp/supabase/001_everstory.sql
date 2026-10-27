@@ -28,7 +28,7 @@ revoke all on public.everstory_stories,public.everstory_turns,public.everstory_l
 
 -- Server-only atomic counter. Failed upstream calls count as attempts.
 create function public.everstory_limit(p_key text,p_max integer,p_seconds integer) returns boolean
-language plpgsql security definer set search_path=public as $$
+language plpgsql security invoker set search_path=public as $$
 declare n integer;
 begin
  insert into everstory_limits(key,used,expires_at) values(p_key,1,now()+make_interval(secs=>p_seconds))
@@ -38,7 +38,7 @@ begin
  return n<=p_max;
 end $$;
 create function public.everstory_begin(p_owner text,p_character text,p_language text,p_request uuid,p_action text,p_ip text,p_version integer) returns jsonb
-language plpgsql security definer set search_path=public as $$
+language plpgsql security invoker set search_path=public as $$
 declare s everstory_stories; t everstory_turns;
 begin
  -- Bound retention at every active request. For inactive data, schedule cleanup below.
@@ -60,7 +60,7 @@ begin
  return jsonb_build_object('story',to_jsonb(s),'recent',(select coalesce(jsonb_agg(x order by x.version),'[]'::jsonb) from (select action,scene,version from everstory_turns where owner_id=p_owner and character_id=p_character and language=p_language order by version desc limit 12)x));
 end $$;
 create function public.everstory_finish(p_owner text,p_character text,p_language text,p_request uuid,p_action text,p_scene text,p_choices jsonb,p_summary text,p_state jsonb) returns jsonb
-language plpgsql security definer set search_path=public as $$
+language plpgsql security invoker set search_path=public as $$
 declare s everstory_stories; t everstory_turns;
 begin
  select * into s from everstory_stories where owner_id=p_owner and character_id=p_character and language=p_language for update;
@@ -70,7 +70,7 @@ begin
  return to_jsonb(t);
 end $$;
 create function public.everstory_unlock(p_owner text,p_request uuid) returns void
-language sql security definer set search_path=public as $$update everstory_stories set lock_id=null,lock_until=null where owner_id=p_owner and lock_id=p_request$$;
+language sql security invoker set search_path=public as $$update everstory_stories set lock_id=null,lock_until=null where owner_id=p_owner and lock_id=p_request$$;
 revoke all on function public.everstory_limit(text,integer,integer),public.everstory_begin(text,text,text,uuid,text,text,integer),public.everstory_finish(text,text,text,uuid,text,text,jsonb,text,jsonb),public.everstory_unlock(text,uuid) from public,anon,authenticated;
 grant execute on function public.everstory_limit(text,integer,integer),public.everstory_begin(text,text,text,uuid,text,text,integer),public.everstory_finish(text,text,text,uuid,text,text,jsonb,text,jsonb),public.everstory_unlock(text,uuid) to service_role;
 -- Schedule with Supabase cron after enabling pg_cron. Do not silently enable an extension.
