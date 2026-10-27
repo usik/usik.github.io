@@ -6,10 +6,11 @@ import {handle,validateOutput} from '../lib/api.mjs';
 const db=new PGlite();
 await db.exec('create role anon; create role authenticated; create role service_role;');
 await db.exec(await readFile(new URL('../supabase/001_everstory.sql',import.meta.url),'utf8'));
+await db.exec(await readFile(new URL('../supabase/002_scene_visuals.sql',import.meta.url),'utf8'));
 const env={SERVICE_ENABLED:'true',SUPABASE_URL:'https://db.test',SUPABASE_SERVICE_ROLE_KEY:'test-server-only',GEMINI_API_KEY:'test-model-only',PUBLIC_ORIGIN:'https://everstory.test'};
 const user={userId:'account-A',displayName:'Test A'};
 let modelCalls=0,modelMode='ok',lastModel;
-const output={scene:'서도윤은 우산을 조금 더 기울였다. “기억하고 있었구나.”',choices:['팔찌에 대해 묻는다.','우산 안으로 들어간다.','왜 돌아왔는지 묻는다.'],summary:'정류장에서 도윤과 재회. 팔찌의 기억을 공유했다.',state:{location:'정류장',relationship:'조심스러운 재회',openThreads:['도윤이 떠난 이유']}};
+const output={scene:'서도윤은 우산을 조금 더 기울였다. “기억하고 있었구나.”',choices:['팔찌에 대해 묻는다.','우산 안으로 들어간다.','왜 돌아왔는지 묻는다.'],summary:'정류장에서 도윤과 재회. 팔찌의 기억을 공유했다.',state:{visual:'warm',location:'정류장',relationship:'조심스러운 재회',openThreads:['도윤이 떠난 이유']}};
 async function fetcher(url,opts={}){
  const u=new URL(url),body=opts.body?JSON.parse(opts.body):undefined;
  if(u.hostname==='generativelanguage.googleapis.com'){
@@ -57,15 +58,15 @@ test('atomic signup normalization, duplicates, consent and per-IP limit',async()
  const limited=await call('waitlist',p,null);assert.equal(limited.status,429);assert.equal(limited.headers.get('retry-after'),'60');
 });
 test('turn generation, idempotent retry, free text, persistent memory and owner isolation',async()=>{
- const p=action();let r=await call('story',p);assert.equal(r.status,200);const first=await r.json();assert.equal(first.turn.version,1);assert.equal(first.turn.choices.length,3);
+ const p=action();let r=await call('story',p);assert.equal(r.status,200);const first=await r.json();assert.equal(first.turn.version,1);assert.equal(first.turn.choices.length,3);assert.equal(first.turn.visual,'warm');
  const count=modelCalls;assert.equal((await call('story',p)).status,200);assert.equal(modelCalls,count);
  assert.equal((await call('story',{...p,message:'different'})).status,409);
  const b=action('kael',1,'내가 준 팔찌를 아직 갖고 있네.');r=await call('story',b);assert.equal(r.status,200);
  const memory=JSON.parse(lastModel.contents[0].parts[0].text);assert.equal(memory.memory,output.summary);assert.equal(memory.recent.length,1);assert.equal(memory.action,b.message);
- const stored=await (await call('story?character=kael&language=ko')).json();assert.equal(stored.turns.length,2);assert.equal(stored.story.version,2);assert.deepEqual(stored.story.state.playerNotes,[b.message]);
+ const stored=await (await call('story?character=kael&language=ko')).json();assert.equal(stored.turns.length,2);assert.equal(stored.story.version,2);assert.equal(stored.story.state.visual,'warm');assert.deepEqual(stored.turns.map(t=>t.visual),['warm','warm']);assert.deepEqual(stored.story.state.playerNotes,[b.message]);
  const other=await (await call('story?character=kael&language=ko',undefined,{userId:'account-B'})).json();assert.equal(other.turns.length,0);
  const c=await (await call('story?character=rin&language=ko')).json();assert.equal(c.turns.length,0);
- const exported=await (await call('export')).json();assert.equal(exported.turns.length,2);
+ const exported=await (await call('export')).json();assert.equal(exported.turns.length,2);assert.equal(exported.turns[0].visual,'warm');
 });
 test('stale versions and in-flight concurrency do not double-charge model',async()=>{
  const before=modelCalls;assert.equal((await call('story',action('kael',0))).status,409);assert.equal(modelCalls,before);
@@ -93,4 +94,17 @@ test('deleting own data cascades all turns but preserves other owners',async()=>
  assert.equal((await db.query("select count(*)::int as n from everstory_turns where owner_id='fresh-account'")).rows[0].n,1);
 });
 test('invalid model outputs fail strict validation',()=>{assert.throws(()=>validateOutput({...output,choices:['same','same','third']}));assert.throws(()=>validateOutput({...output,state:{...output.state,openThreads:[{secret:true}]}}));});
+test('visual enum rejects URLs and prompt-injected asset IDs; legacy output falls back safely',()=>{
+ for(const visual of ['https://evil.test/tracker.png','../../private','toString',null,{},'WARM'])assert.throws(()=>validateOutput({...output,state:{...output.state,visual}}),/invalid_model_output/);
+ const {visual,...legacy}=output.state;assert.equal(validateOutput({...output,state:legacy}).state.visual,'neutral');
+ assert.deepEqual(lastModel.generationConfig.responseJsonSchema.properties.state.properties.visual.enum,['neutral','warm','tense','vulnerable','resolute']);
+});
+test('saved visual survives retry independently of later model response',async()=>{
+ const who={userId:'visual-test',displayName:'Visual test'};output.state.visual='tense';const firstAction=action('noah');const first=await (await call('story',firstAction,who)).json();assert.equal(first.turn.visual,'tense');
+ output.state.visual='resolute';const second=await (await call('story',action('noah',1,'함께 저주를 풀 방법을 찾자.'),who)).json();assert.equal(second.turn.visual,'resolute');
+ const retry=await (await call('story',firstAction,who)).json();assert.equal(retry.turn.visual,'tense');
+ const restored=await (await call('story?character=noah&language=ko',undefined,who)).json();assert.deepEqual(restored.turns.map(t=>t.visual),['tense','resolute']);assert.equal(restored.story.state.visual,'resolute');
+ const exported=await (await call('export',undefined,who)).json();assert.deepEqual(exported.turns.map(t=>t.visual),['tense','resolute']);
+ output.state.visual='warm';
+});
 test.after(async()=>{await db.close()});
