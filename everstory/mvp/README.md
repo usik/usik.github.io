@@ -46,3 +46,15 @@ Competitor findings and implementation boundaries: `docs/competitor-review-2026-
 ## GitHub portrait assets
 
 In the GitHub mirror, run `node scripts/restore-assets.mjs` to reconstruct the original `.webp` portraits from checked-in `.webp.base64` assets. Dev/build restores them automatically. The new expression WebP files are checked in directly.
+
+## Public discovery, analytics and domain migration (2026-10-28)
+
+The root page, ten `/characters/{id}` pages, `/guide` and `/faq` render useful public HTML without login, with canonical URLs, Open Graph/Twitter cards and accurate structured data. `/robots.txt` and `/sitemap.xml` are served dynamically. The chat shell is `noindex,follow`; API responses are `noindex,nofollow`. No ranking, indexation or AI-answer inclusion is promised. Google Search Console/Naver ownership verification is not completed by adding metadata.
+
+`PUBLIC_SITE_URL` is the only public canonical origin configuration. `LEGACY_SITE_HOSTS` enables allowlisted public-page 308 migration redirects. Preserve relative paths and the existing Sites/Supabase project identities. Complete DNS/TLS, hosted authentication and Edge origin coordination before switching. See `docs/domain-migration.md`.
+
+`POST /api/visit` stores first-party aggregate visits in `everstory_visits`, after `supabase/analytics-schema.sql`. The server uses a secret-key HMAC of KST day, IP and browser user agent, with a fresh identity each day. It stores no raw IP, UA, full referrer, persistent browser ID, email, or message content in the analytics table. Allowed public paths/events and short source codes are validated, known bots/DNT/GPC are skipped, request counts are limited, and direct table/RPC visitor access is revoked. Shared NAT/browser signatures can merge visitors; changing networks can split them; blockers and undetected bots affect counts. These are estimated daily visitors, not exact humans or cross-day unique users. A recognized operator sign-in marks the day's matching hash as operator, using secret `ANALYTICS_OPERATOR_EMAILS`; anonymous owner visits cannot always be excluded. Cron removes analytics older than 90 days.
+
+A daily 08:47 Asia/Seoul automation reports aggregate metrics using Supabase. Source changes are not performed by the reporting task. Growth copy, tagged links, channel gates and stagnation rules are in `docs/growth/distribution.md`. No social publication is claimed without a returned post URL.
+
+Validation: `node --test tests/*.test.mjs`, TypeScript, Sites build, and `node scripts/check-public-pages.mjs <base-url>` for crawlable page/metadata/sitemap/robots contracts. The script's default expected canonical origin is the current hosted origin and can be overridden with `EXPECTED_CANONICAL_ORIGIN` during migration.

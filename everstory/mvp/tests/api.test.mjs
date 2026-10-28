@@ -7,6 +7,7 @@ const db=new PGlite();
 await db.exec('create role anon; create role authenticated; create role service_role;');
 await db.exec(await readFile(new URL('../supabase/001_everstory.sql',import.meta.url),'utf8'));
 await db.exec(await readFile(new URL('../supabase/002_scene_visuals.sql',import.meta.url),'utf8'));
+await db.exec(await readFile(new URL('../supabase/analytics-schema.sql',import.meta.url),'utf8'));
 const env={SERVICE_ENABLED:'true',SUPABASE_URL:'https://db.test',SUPABASE_SERVICE_ROLE_KEY:'test-server-only',GEMINI_API_KEY:'test-model-only',PUBLIC_ORIGIN:'https://everstory.test'};
 const user={userId:'account-A',displayName:'Test A'};
 let modelCalls=0,modelMode='ok',lastModel;
@@ -106,5 +107,17 @@ test('saved visual survives retry independently of later model response',async()
  const restored=await (await call('story?character=noah&language=ko',undefined,who)).json();assert.deepEqual(restored.turns.map(t=>t.visual),['tense','resolute']);assert.equal(restored.story.state.visual,'resolute');
  const exported=await (await call('export',undefined,who)).json();assert.deepEqual(exported.turns.map(t=>t.visual),['tense','resolute']);
  output.state.visual='warm';
+});
+test('anonymous analytics stores aggregates, deduplicates visitors and protects operator attribution',async()=>{
+ const visit={event:'pageview',path:'/',source:'launch_x',referrer:'https://example.com/private?email=secret'};
+ const request=body=>new Request(env.PUBLIC_ORIGIN+'/api/visit',{method:'POST',headers:{Origin:env.PUBLIC_ORIGIN,'Content-Type':'application/json','user-agent':'Mozilla/5.0 test-browser','cf-connecting-ip':'192.0.2.101'},body:JSON.stringify(body)});
+ const before=modelCalls;for(let i=0;i<2;i++)assert.equal((await handle(request({...visit,isOperator:true}),env,null,fetcher)).status,200);
+ let rows=(await db.query('select * from everstory_visits')).rows;assert.equal(rows.length,1);assert.equal(rows[0].pageviews,2);assert.equal(rows[0].is_operator,false);assert.equal(rows[0].referrer_host,'example.com');assert.match(rows[0].visitor_hash,/^[a-f0-9]{64}$/);
+ assert.equal((await handle(request({event:'character_select',path:'/characters/noah'}),{...env,ANALYTICS_IS_OPERATOR:true},user,fetcher)).status,200);
+ rows=(await db.query('select * from everstory_visits')).rows;assert.equal(rows.filter(r=>r.is_operator).length,2);assert.equal(modelCalls,before);
+ assert.equal((await handle(request({...visit,path:'/api/export?email=secret'}),env,null,fetcher)).status,400);
+ const bot=new Request(request(visit),{headers:{Origin:env.PUBLIC_ORIGIN,'Content-Type':'application/json','user-agent':'Googlebot','cf-connecting-ip':'192.0.2.102'}});assert.equal((await (await handle(bot,env,null,fetcher)).json()).recorded,false);
+ const dnt=new Request(request(visit),{headers:{Origin:env.PUBLIC_ORIGIN,'Content-Type':'application/json','user-agent':'Mozilla/5.0','cf-connecting-ip':'192.0.2.103',dnt:'1'}});assert.equal((await (await handle(dnt,env,null,fetcher)).json()).recorded,false);
+ await db.exec('set role anon');await assert.rejects(db.query('select * from everstory_visits'),/permission denied/);await assert.rejects(db.query("select everstory_visit(current_date,repeat('a',64),'/','pageview','direct','',false)"),/permission denied/);await db.exec('reset role');
 });
 test.after(async()=>{await db.close()});
