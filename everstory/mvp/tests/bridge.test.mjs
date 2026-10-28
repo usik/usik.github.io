@@ -43,3 +43,10 @@ test('unauthenticated envelope cannot supply model credentials',async()=>{
  let called=false;const edge=makeEdgeHandler(()=>{called=true;return Response.json({ok:true})},{origin,tokenDigest},{});
  const r=await edge(new Request(origin,{method:'POST',body:JSON.stringify({geminiApiKey:'visitor-value',path:'/api/story',method:'POST',body:'{}',user:null})}));assert.equal(r.status,401);assert.equal(called,false);
 });
+test('operator flag comes from trusted sign-in email and secret config, not visitor body',async()=>{
+ let seen;const edge=makeEdgeHandler((req,env)=>{seen={isOperator:env.ANALYTICS_IS_OPERATOR,ua:req.headers.get('user-agent'),dnt:req.headers.get('dnt')};return Response.json({ok:true})},{origin,tokenDigest},{});
+ const request=()=>new Request(origin+'/api/visit',{method:'POST',headers:{Origin:origin,'Content-Type':'application/json','user-agent':'Mozilla/5.0',dnt:'1'},body:JSON.stringify({isOperator:true,path:'/',event:'pageview'})});
+ const runtime={EVERSTORY_BACKEND_URL:origin+'/edge',EVERSTORY_BACKEND_TOKEN:token,ANALYTICS_OPERATOR_EMAILS:'owner@example.com'};
+ await forwardToBackend(request(),runtime,{userId:'A',displayName:'A',email:'other@example.com'},async(url,init)=>edge(new Request(url,init)));assert.equal(seen.isOperator,false);assert.equal(seen.ua,'Mozilla/5.0');assert.equal(seen.dnt,'1');
+ await forwardToBackend(request(),runtime,{userId:'O',displayName:'Owner',email:'owner@example.com'},async(url,init)=>edge(new Request(url,init)));assert.equal(seen.isOperator,true);
+});

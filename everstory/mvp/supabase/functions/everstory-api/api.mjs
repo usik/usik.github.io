@@ -1,9 +1,10 @@
+import {normalizeVisit,analyticsDay,isKnownBot,dailyVisitorHash} from './analytics.mjs';
 import { characters } from './characters.mjs';
 import { worlds } from './worlds.mjs';
 const LANGS=['ko','ja','en','es'];
 const VISUALS=['neutral','warm','tense','vulnerable','resolute'];
 const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-const reply=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'same-origin',...(status===429?{'Retry-After':'60'}:{})}});
+const reply=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Robots-Tag':'noindex, nofollow','X-Content-Type-Options':'nosniff','Referrer-Policy':'same-origin',...(status===429?{'Retry-After':'60'}:{})}});
 const err=(code,status)=>reply({error:code},status);
 export function validateOutput(s){
  if(!s||typeof s.scene!=='string'||!s.scene.trim()||s.scene.length>6000||!Array.isArray(s.choices)||s.choices.length!==3||s.choices.some(c=>typeof c!=='string'||!c.trim()||c.length>240)||new Set(s.choices).size!==3||typeof s.summary!=='string'||s.summary.length>3000||!s.state||typeof s.state!=='object'||Array.isArray(s.state)||typeof s.state.location!=='string'||typeof s.state.relationship!=='string'||!Array.isArray(s.state.openThreads)||s.state.openThreads.length>8||s.state.openThreads.some(t=>typeof t!=='string'||t.length>200)) throw Error('invalid_model_output');
@@ -28,8 +29,8 @@ export async function handle(request,env,user,fetcher=fetch){
   if(request.headers.get('origin')!==allowed)return err('origin_not_allowed',403);
   if(request.headers.get('sec-fetch-site')==='cross-site')return err('origin_not_allowed',403);
  }
- if(!['story','waitlist','data','export'].includes(path))return err('not_found',404);
- if(path!=='waitlist'&&!user)return err('sign_in_required',401);
+ if(!['story','waitlist','data','export','visit'].includes(path))return err('not_found',404);
+ if(!['waitlist','visit'].includes(path)&&!user)return err('sign_in_required',401);
  if(!configured)return err('storage_unconfigured',503);
  const ip=await digest((request.headers.get('cf-connecting-ip')||'unknown')+':'+dbKey);
  const key=(obj)=>new URLSearchParams(obj).toString();
@@ -54,6 +55,14 @@ export async function handle(request,env,user,fetcher=fetch){
  if(Number(request.headers.get('content-length')||0)>10000)return err('request_too_large',413);
  const reader=request.body?.getReader();let bytes=0,parts=[];if(reader){while(true){const {value,done}=await reader.read();if(done)break;bytes+=value.length;if(bytes>10000){await reader.cancel();return err('request_too_large',413);}parts.push(value);}}
  let data;try {const all=new Uint8Array(bytes);let n=0;for(const p of parts){all.set(p,n);n+=p.length;}data=JSON.parse(new TextDecoder().decode(all));if(!data||Array.isArray(data)||typeof data!=='object')throw Error();}catch{return err('invalid_json',400);}
+ if(path==='visit'){
+  const ua=request.headers.get('user-agent')||'';
+  if(request.headers.get('dnt')==='1'||request.headers.get('sec-gpc')==='1'||isKnownBot(ua)||!request.headers.get('cf-connecting-ip')||request.headers.get('cf-connecting-ip')==='unknown')return reply({ok:true,recorded:false});
+  let visit;try{visit=normalizeVisit(data);}catch{return err('invalid_visit',400);}
+  const day=analyticsDay(),visitor=await dailyVisitorHash(request.headers.get('cf-connecting-ip'),ua.slice(0,500),dbKey,day);
+  if(!await db('rpc/everstory_limit',{p_key:'visit:'+visitor,p_max:200,p_seconds:86400})||!await db('rpc/everstory_limit',{p_key:'visit:global:day',p_max:20000,p_seconds:86400}))return err('rate_limited',429);
+  await db('rpc/everstory_visit',{p_day:day,p_visitor:visitor,p_path:visit.path,p_event:visit.event,p_source:visit.source,p_referrer:visit.referrer,p_operator:env.ANALYTICS_IS_OPERATOR===true});return reply({ok:true,recorded:true});
+ }
  if(path==='waitlist'){
   const email=typeof data.email==='string'?data.email.trim().toLowerCase():'';
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||email.length>254||data.consent!==true||data.consentVersion!=='2026-10-27'||!LANGS.includes(data.language))return err('invalid_submission',400);
