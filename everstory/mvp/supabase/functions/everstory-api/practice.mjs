@@ -8,7 +8,7 @@ export function validateHelp(value,kind){
   if(!str(value?.sceneMeaning,9000)||!Array.isArray(value.choiceMeanings)||value.choiceMeanings.length!==3||value.choiceMeanings.some(s=>!str(s,600)))throw Error('invalid_model_output');
   return {sceneMeaning:value.sceneMeaning,choiceMeanings:value.choiceMeanings};
  }
- if(!str(value?.suggestion,2000)||!str(value.explanation,1500)||typeof value.changed!=='boolean')throw Error('invalid_model_output');
+ if(!str(value?.suggestion,1000)||!str(value.explanation,1500)||typeof value.changed!=='boolean')throw Error('invalid_model_output');
  return {suggestion:value.suggestion,explanation:value.explanation,changed:value.changed};
 }
 async function hash(value){return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(value))),b=>b.toString(16).padStart(2,'0')).join('');}
@@ -55,7 +55,7 @@ export async function handlePractice({u,request,data,user,db,env,ip,fetcher,sche
   }else{
    if(typeof data.draft!=='string'||!data.draft.trim()||data.draft.length>1000)return fail('invalid_submission');
    input={draft:data.draft,targetLanguage:language};cacheKey='polish:v1:'+data.requestId;fingerprint=await hash(JSON.stringify(input));
-   system=`You help a language learner express their own meaning. Return suggestion in ${language}, a brief explanation in ${support}, and changed boolean. Fix actual errors gently; if already natural keep it and say so. If the draft is in another language, provide its natural ${language} equivalent and explain that it is a translation. Preserve the user's meaning, hedges, questions, intent and proper names. Do not add story actions, invent facts, or reply as the character. Korean suggestions normally use conversational haeyo polite speech; banmal is not automatically a grammar error, explain register only when relevant. ${safe}`;
+   system=`You help a language learner express their own meaning. Keep suggestion at most 1000 characters so it fits the chat input. Return suggestion in ${language}, a brief explanation in ${support}, and changed boolean. Fix actual errors gently; if already natural keep it and say so. If the draft is in another language, provide its natural ${language} equivalent and explain that it is a translation. Preserve the user's meaning, hedges, questions, intent and proper names. Do not add story actions, invent facts, or reply as the character. Korean suggestions normally use conversational haeyo polite speech; banmal is not automatically a grammar error, explain register only when relevant. ${safe}`;
   }
   const args={p_owner:owner,p_language:language,p_key:cacheKey,p_fingerprint:fingerprint,p_request:data.requestId,p_ip:ip,p_seconds:data.kind==='polish'?3600:7776000};
   const start=await db('rpc/everstory_help_begin',args);if(start.error)return fail(start.error,start.error==='rate_limited'?429:409);if(start.cached)return {help:start.cached,cached:true};

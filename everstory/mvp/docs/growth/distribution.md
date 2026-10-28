@@ -1,6 +1,6 @@
 # EverStory distribution — launch experiment
 
-Prepared 2026-10-28. Status: copy and tagged links prepared; no external SNS/community posts published by this change. Social account connection is not yet confirmed. Metricool was suggested for inspecting brands and publishing through the user's selected connected accounts. Do not claim an unconnected account was used. No paid advertising or private outreach is authorized by this plan.
+Prepared 2026-10-28. Status: copy and tagged links prepared; no external SNS/community posts published by this change. As of 2026-10-29 the user confirmed they have no X, Threads or other promotional account. No account connection or publication is complete. Metricool was suggested for inspecting brands and publishing through the user's selected connected accounts. Do not claim an unconnected account was used. No paid advertising or private outreach is authorized by this plan.
 
 ## Small first experiment
 
@@ -79,3 +79,41 @@ Routine daily automation currently reports the signal and prepares a channel-spe
 Official channel reference checked 2026-10-28:
 - https://news.hada.io/guidelines — own products belong in Show; account age and other registration rules apply.
 - https://news.hada.io/show — live Show listing.
+
+## Language-story launch copy — prepared 2026-10-29
+
+Status: drafts only, not published. The user has no SNS account and requested preparation while away. Do not create accounts or accept terms on their behalf. Original story-led drafts above remain optional variants; the first language experiment should use one audience and one channel.
+
+### English — Korean learners
+
+Your next story, in Korean.
+
+I’m building EverStory, a character-story beta where you chat with Nox, the last knight of a sunless kingdom. Choose a reply or write your own Korean, reveal English meanings when you need them, and get an optional sentence correction before you send. Your story is saved so you can come back to it.
+
+I’d love to hear where the story makes you want to reply—and where the Korean feels too difficult.
+
+Text chat · Adults 20+ · ChatGPT sign-in required · Free MVP limits apply. AI translations and corrections can make mistakes.
+
+https://everstory.usik-luke.chatgpt.site/learn-korean?utm_source=korean_x_01
+
+For a Threads account, use the same factual copy after checking its current posting rules and a distinct source: `korean_threads_01`.
+
+### Korean — English learners
+
+영어로 답장하고 싶어지는 캐릭터가 있다면 어떨까요?
+
+제가 만드는 EverStory에서 저주받은 왕국의 기사 녹스와 영어로 이야기를 이어갈 수 있어요. 모르는 대사는 한국어 뜻을 펼쳐보고, 직접 쓴 문장은 원할 때만 다듬을 수 있습니다. 추천 선택지 3개와 자유 입력을 지원하고 대화는 저장돼요.
+
+“다음 장면이 궁금해서 영어로 답하고 싶어지는지” 피드백을 받고 싶습니다.
+
+현재 녹스 베타 · 만 20세 이상 · ChatGPT 로그인 필요 · 대화·뜻 보기·교정이 무료 이용 한도를 함께 사용합니다. AI 표현과 교정에는 오류가 있을 수 있어요.
+
+https://everstory.usik-luke.chatgpt.site/?utm_source=english_threads_01
+
+### Before publishing one post
+
+- Connect one user-selected account when the user is ready; choose an existing eligible account for any community post.
+- Read that channel’s current official rules then, rather than treating this draft as posting permission from the platform.
+- Use existing original Nox art and the matching factual landing page. Do not claim learning outcomes, user counts, rankings, or reviews.
+- Record an actual post URL and time only after publication succeeds. Compare tagged landing visits with the prior completed days. Conversation counts are separate aggregate usage; do not claim campaign-to-signup or retention attribution that the current data cannot establish.
+- Primary Korean-chat CTAs on /learn-korean carry validated utm_source into the chat page. Canonical URLs remain clean. First-party daily hashing still estimates visitor-days, not exact people.

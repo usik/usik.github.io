@@ -7,4 +7,4 @@ export function middleware(request:NextRequest){
  if(current.hostname!==canonical.hostname&&legacy.includes(current.hostname))return NextResponse.redirect(new URL(current.pathname+current.search,canonical),308);
  return NextResponse.next();
 }
-export const config={matcher:['/','/guide','/faq','/characters/:path*','/experience','/experience.html','/privacy.html','/robots.txt','/sitemap.xml']};
+export const config={matcher:['/','/guide','/faq','/learn-korean','/characters/:path*','/experience','/experience.html','/privacy.html','/robots.txt','/sitemap.xml']};
