@@ -1,3 +1,4 @@
+import {handlePractice} from './practice.mjs';
 import {normalizeVisit,analyticsDay,isKnownBot,dailyVisitorHash} from './analytics.mjs';
 import { characters } from './characters.mjs';
 import { worlds } from './worlds.mjs';
@@ -29,19 +30,22 @@ export async function handle(request,env,user,fetcher=fetch){
   if(request.headers.get('origin')!==allowed)return err('origin_not_allowed',403);
   if(request.headers.get('sec-fetch-site')==='cross-site')return err('origin_not_allowed',403);
  }
- if(!['story','waitlist','data','export','visit'].includes(path))return err('not_found',404);
+ if(!['story','waitlist','data','export','visit','practice','practice-help'].includes(path))return err('not_found',404);
  if(!['waitlist','visit'].includes(path)&&!user)return err('sign_in_required',401);
  if(!configured)return err('storage_unconfigured',503);
  const ip=await digest((request.headers.get('cf-connecting-ip')||'unknown')+':'+dbKey);
  const key=(obj)=>new URLSearchParams(obj).toString();
  if(path==='data'&&request.method==='DELETE'){
-  await db('everstory_stories?'+key({owner_id:'eq.'+user.userId}),undefined,'DELETE');return reply({ok:true});
+  await db('everstory_stories?'+key({owner_id:'eq.'+user.userId}),undefined,'DELETE');await db('everstory_practice_stories?'+key({owner_id:'eq.'+user.userId}),undefined,'DELETE');return reply({ok:true});
  }
  if(path==='export'&&request.method==='GET'){
   const stories=await db('everstory_stories?'+key({owner_id:'eq.'+user.userId,select:'character_id,language,summary,state,version,updated_at'}),undefined,'GET');
   let turns=[];for(let offset=0;offset<100000;offset+=500){const rows=await db('everstory_turns?'+key({owner_id:'eq.'+user.userId,select:'character_id,language,action,scene,choices,visual,version,created_at',order:'created_at.asc',limit:'500',offset:String(offset)}),undefined,'GET');turns.push(...rows);if(rows.length<500)break;}
-  return reply({stories,turns});
+  const practiceStories=await db('everstory_practice_stories?'+key({owner_id:'eq.'+user.userId,select:'language,support_language,level,settings_version,summary,state,version,updated_at'}),undefined,'GET');
+  let practiceTurns=[],practiceHelp=[];for(const [table,target] of [['everstory_practice_turns',practiceTurns],['everstory_practice_help',practiceHelp]])for(let offset=0;offset<100000;offset+=500){const rows=await db(table+'?'+key({owner_id:'eq.'+user.userId,select:table.endsWith('turns')?'language,action,scene,choices,visual,level,settings_version,version,created_at':'language,cache_key,result,expires_at',limit:'500',offset:String(offset),...(table.endsWith('help')?{expires_at:'gt.'+new Date().toISOString()}:{} )}),undefined,'GET');target.push(...rows);if(rows.length<500)break;}
+  return reply({stories,turns,practice:{stories:practiceStories,turns:practiceTurns,help:practiceHelp}});
  }
+ if(path==='practice'&&request.method==='GET'){const result=await handlePractice({u,request,user,db,env,ip,fetcher,schema,validateOutput});return result.error?err(result.error,result.status):reply(result);}
  if(path==='story'&&request.method==='GET'){
   const character=u.searchParams.get('character'),language=u.searchParams.get('language')||'ko';
   if(!Object.hasOwn(worlds,character)||!LANGS.includes(language))return err('invalid_character_or_language',400);
@@ -55,6 +59,7 @@ export async function handle(request,env,user,fetcher=fetch){
  if(Number(request.headers.get('content-length')||0)>10000)return err('request_too_large',413);
  const reader=request.body?.getReader();let bytes=0,parts=[];if(reader){while(true){const {value,done}=await reader.read();if(done)break;bytes+=value.length;if(bytes>10000){await reader.cancel();return err('request_too_large',413);}parts.push(value);}}
  let data;try {const all=new Uint8Array(bytes);let n=0;for(const p of parts){all.set(p,n);n+=p.length;}data=JSON.parse(new TextDecoder().decode(all));if(!data||Array.isArray(data)||typeof data!=='object')throw Error();}catch{return err('invalid_json',400);}
+ if(path==='practice'||path==='practice-help'){const result=await handlePractice({u,request,data,user,db,env,ip,fetcher,schema,validateOutput});return result.error?err(result.error,result.status):reply(result);}
  if(path==='visit'){
   const ua=request.headers.get('user-agent')||'';
   if(request.headers.get('dnt')==='1'||request.headers.get('sec-gpc')==='1'||isKnownBot(ua)||!request.headers.get('cf-connecting-ip')||request.headers.get('cf-connecting-ip')==='unknown')return reply({ok:true,recorded:false});

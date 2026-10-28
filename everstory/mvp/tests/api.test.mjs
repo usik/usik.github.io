@@ -7,6 +7,7 @@ const db=new PGlite();
 await db.exec('create role anon; create role authenticated; create role service_role;');
 await db.exec(await readFile(new URL('../supabase/001_everstory.sql',import.meta.url),'utf8'));
 await db.exec(await readFile(new URL('../supabase/002_scene_visuals.sql',import.meta.url),'utf8'));
+await db.exec(await readFile(new URL('../supabase/practice-schema.sql',import.meta.url),'utf8'));
 await db.exec(await readFile(new URL('../supabase/analytics-schema.sql',import.meta.url),'utf8'));
 const env={SERVICE_ENABLED:'true',SUPABASE_URL:'https://db.test',SUPABASE_SERVICE_ROLE_KEY:'test-server-only',GEMINI_API_KEY:'test-model-only',PUBLIC_ORIGIN:'https://everstory.test'};
 const user={userId:'account-A',displayName:'Test A'};
@@ -22,7 +23,7 @@ async function fetcher(url,opts={}){
  assert.equal(u.hostname,'db.test');assert.equal(opts.headers.apikey,env.SUPABASE_SERVICE_ROLE_KEY);
  const route=u.pathname.replace('/rest/v1/','');
  if(route.startsWith('rpc/')){const name=route.slice(4);assert.match(name,/^everstory_[a-z]+$/);const keys=Object.keys(body);const q='select public.'+name+'('+keys.map((k,i)=>k+'=> $'+(i+1)).join(',')+') as result';const values=keys.map(k=>typeof body[k]==='object'?JSON.stringify(body[k]):body[k]);const r=await db.query(q,values);return Response.json(r.rows[0].result??null);}
- assert.ok(['everstory_stories','everstory_turns','everstory_waitlist'].includes(route));
+ assert.ok(['everstory_stories','everstory_turns','everstory_waitlist','everstory_practice_stories','everstory_practice_turns','everstory_practice_help'].includes(route));
  if(route==='everstory_waitlist'){
   await db.query('insert into everstory_waitlist(email,language,consent_version) values($1,$2,$3) on conflict(email) do nothing',[body.email,body.language,body.consent_version]);return new Response(null,{status:201});
  }
